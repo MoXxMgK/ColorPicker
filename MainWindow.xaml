@@ -1,0 +1,87 @@
+﻿<Window x:Class="ColorPicker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ColorPicker"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="ColorPicker" Height="350" Width="500"
+        ResizeMode="CanMinimize">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <tk:ColorCanvas Grid.Row="0"
+                            x:Name="ColorCanvas"
+                            SelectedColor="{Binding DrawAttrs.Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!--Copy buttons-->
+                <Button Content="Copy Hex"
+                        Grid.Column="0"
+                        Click="CopyHexButtonClick"/>
+                <Button Content="Copy RGB"
+                        Grid.Column="1"
+                        Click="CopyRGBButtonClick"/>
+                <Button Content="Copy ARGB"
+                        Grid.Column="2"
+                        Click="CopyARGBButtonClick"/>
+            </Grid>
+        </Grid>
+        
+        <!--Display color in samples-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <!--Clear button-->
+            <Button Content="Clear"
+                    Grid.Row="0"
+                    Click="ClearCanvasButtonClick"/>
+            
+            <!--Canvases-->
+            <InkCanvas Grid.Row="1"
+                       x:Name="InkCanvas"
+                       DefaultDrawingAttributes="{Binding DrawAttrs}"/>
+            <Separator Grid.Row="2"
+                       Height="2"
+                       Background="Black"/>
+            <Canvas Grid.Row="3">
+                <Rectangle Width="100"
+                           Height="100"
+                           Canvas.Top="10"
+                           Canvas.Left="10"
+                           Fill="{Binding ElementName=ColorCanvas, Path=HexadecimalString}"/>
+                <Ellipse Width="100"
+                         Height="100"
+                         Canvas.Top="10"
+                         Canvas.Left="120"
+                         Fill="{Binding ElementName=ColorCanvas, Path=HexadecimalString}"/>
+                <Line X1="10" Y1="120"
+                      X2="220" Y2="120"
+                      Stroke="{Binding ElementName=ColorCanvas, Path=HexadecimalString}"
+                      StrokeThickness="5"/>
+            </Canvas>
+        </Grid>
+    </Grid>
+</Window>
